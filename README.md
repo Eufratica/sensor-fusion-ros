@@ -64,17 +64,17 @@ cd ~/catkin_ws/src
 git clone https://github.com/Eufratica/sensor-fusion-ros.git
 cd ..
 ```
-2. Compilação
+## 2. Compilação
 Compile o pacote para integrar os novos arquivos de configuração e scripts ao ambiente ROS:
 
 ```bash
 catkin_make
 source devel/setup.bash
 ```
-3. Execução dos Testes (Fluxo de Trabalho)
+## 3. Execução dos Testes (Fluxo de Trabalho)
 Para realizar a comparação completa, você precisará de três terminais abertos simultaneamente:
 
-Terminal 1: Simulador Gazebo
+# Terminal 1: Simulador Gazebo
 Inicie o ambiente de simulação com o robô Husky:
 
 ```bash
@@ -83,7 +83,7 @@ roslaunch husky_gazebo husky_empty_world.launch
 ```
 Aguarde o carregamento completo do robô no mundo virtual.
 
-Terminal 2: Sistema de Fusão (EKF)
+# Terminal 2: Sistema de Fusão (EKF)
 Inicie o nó de fusão configurado para o modo desejado. Substitua N pelo valor correspondente (1, 2 ou 3):
 
 ```bash
@@ -96,7 +96,7 @@ roslaunch sensor_fusion_kalman fusion.launch mode:=N
 
 - mode:=3: Odom + IMU + GPS
 
-1. Comando Teleop (Controle Remoto)
+# Terminal 3: Comando Teleop (Controle Remoto)
 O teleop serve para você "pilotar" o robô manualmente através do teclado. Isso é essencial para percorrer o trajeto de teste e gerar os dados que o seu filtro de Kalman vai processar.
 
 Abra um novo terminal e execute:
@@ -106,15 +106,15 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
 Como usar: Certifique-se de que este terminal esteja com o foco (clicado).
 
-Comandos: * i (frente), , (trás), j (esquerda), l (direita).
+- Comandos: * i (frente), , (trás), j (esquerda), l (direita).
 
-k (para o robô).
+- k (para o robô).
 
-u, o, m, . (giros e curvas).
+- u, o, m, . (giros e curvas).
 
-Dica: Se o robô não se mover, verifique se o tópico que o teleop está publicando (/cmd_vel) é o mesmo que o Husky está escutando.
+Nota: Se o robô não se mover, verifique se o tópico que o teleop está publicando (/cmd_vel) é o mesmo que o Husky está escutando.
 
-2. Comando Rosbag (Gravação de Dados)
+# Terminal 4: Comando Rosbag (Gravação de Dados)
 O rosbag é como uma "câmera de vídeo" para o seu ROS. Ele grava todos os tópicos que estão passando pela rede (odometria, IMU, GPS, etc.) para que você possa reproduzir depois ou extrair as métricas.
 
 Para gravar tudo o que o robô está fazendo:
@@ -130,16 +130,19 @@ Explicação dos Parâmetros:
 
 -/gt/odom: É o tópico de Ground Truth fornecido pelo simulador Gazebo. Este tópico é registrado para servir como referência absoluta (gabarito) durante a fase de pós-processamento, permitindo o cálculo do RMSE e outros erros de trajetória.
 
+Para terminar a gravação pressione Crtl + C.
 
 
-Terminal 3: Avaliação e Métricas
+
+# No mesmo terminal em que a gravação foi feita: Avaliação e Métricas
 Após deixar o robô completar o percurso, execute o script de avaliação para calcular o RMSE e gerar os gráficos:
 
 ```bash
 source devel/setup.bash
 python3 src/sensor_fusion_kalman/scripts/avaliar_tcc.py
 ```
-📂 Saída do Sistema e Visualização
+
+## Saída do Sistema e Visualização
 Após a execução do script avaliar_tcc.py, o sistema processa os dados contidos nos arquivos .bag e gera automaticamente arquivos de imagem na pasta scripts/ (ou no diretório de destino configurado).
 
 Estes arquivos contêm os gráficos comparativos da trajetória estimada pelo EKF em relação ao Ground Truth.
