@@ -38,3 +38,11 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 2. Clone o repositório:
    ```bash
    git clone <link-do-seu-repositorio>
+
+## 📊 Resultados Experimentais
+
+| Modo 1 (Odometria) | Modo 2 (Odom + IMU) | Modo 3 (Odom + IMU + GPS) |
+| :---: | :---: | :---: |
+| ![Modo 1](images/resultado_mode1_odom.png) | ![Modo 2](images/resultado_mode2_odom_imu.png) | ![Modo 3](images/resultado_mode3_odom_imu_gps.png) |
+
+> **Análise:** O Modo 3 (Odom + IMU + GPS) atingiu um RMSE de **0.0151 m**, demonstrando a eficácia da fusão sensorial na correção da deriva.
