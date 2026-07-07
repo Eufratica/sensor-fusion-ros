@@ -63,3 +63,18 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 
 > **Conclusão:** A integração de sensores globais (GPS) com sensores proprioceptivos (Odometria/IMU) demonstrou uma redução crítica no erro, validando a arquitetura proposta para aplicações de navegação autônoma.
 
+---
+
+## 🧠 Aprofundamento: Funcionamento do EKF
+
+O sistema opera em um ciclo contínuo de **Predição e Correção**:
+
+1. **Predição:** O robô projeta sua posição futura usando o modelo dinâmico (Odom+IMU). A incerteza (covariância $P$) cresce naturalmente aqui.
+2. **Correção:** Quando o GPS envia uma medida ($\mathbf{z}$), o filtro calcula o resíduo e ajusta o estado. Se a confiança no GPS é alta, a estimativa é "puxada" para a coordenada global, reduzindo a incerteza.
+
+### Fatores Chave para a Robustez:
+* **Matrizes de Covariância:** Ajustamos o `process_noise_covariance` no arquivo `.yaml` para impedir que o sistema confiasse cegamente em sensores ruidosos.
+* **Estimativa de Bias da IMU:** O EKF estima internamente o *bias* (erro constante) da IMU, subtraindo-o em tempo real, o que evita que o robô "dance" quando parado.
+* **Sincronização Temporal:** Utilizamos `message_filters` para garantir que o *timestamp* dos tópicos de entrada fosse casado no tempo, evitando erros de "fantasmas" na fusão.
+
+---
