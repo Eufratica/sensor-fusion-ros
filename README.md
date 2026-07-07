@@ -69,6 +69,12 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 > **Conclusão:** A integração de sensores globais (GPS) com sensores proprioceptivos (Odometria/IMU) demonstrou uma redução crítica no erro, validando a arquitetura proposta para aplicações de navegação autônoma.
 
 ---
+A Escada da Precisão: 
+
+De onde veio cada melhoria?Do Modo 1 (1.77 m) para o Modo 2 (1.38 m): Aqui a gente atacou a "cegueira angular" do robô. Na odometria pura, o robô só sabe quanto as rodas giraram, mas não sabe se está girando no lugar ou em curva. A IMU traz o dado do giroscópio, que é um sensor inercial. O EKF agora tem uma medição direta da velocidade angular. Isso faz o filtro conseguir "desacoplar" o erro de orientação do erro de translação. O erro cai porque a estimativa de Yaw (o ângulo do robô) fica muito mais estável, evitando que o erro de rotação seja jogado na posição X e Y.
+
+Do Modo 2 (1.38 m) para o Modo 3 (0.015 m): Aqui foi onde o sistema mudou de patamar. O GPS quebra a principal barreira da robótica móvel: o drift acumulado. Enquanto a odometria e a IMU são sensores que acumulam erros (você integra o erro a cada segundo), o GPS é uma referência absoluta. No Modo 3, o filtro tem a "âncora". Toda vez que o GPS envia uma coordenada, o filtro usa o ganho de Kalman ($K$) para dizer: "Olha, a odometria diz que estamos aqui, mas o GPS diz que estamos 2 cm pro lado. Vamos confiar mais no GPS porque ele não deriva". É isso que zera o erro acumulado e faz o RMSE despencar para 1.5 cm.
+---
 
 ## 🧠 Aprofundamento: Funcionamento do EKF
 
