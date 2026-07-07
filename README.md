@@ -33,6 +33,23 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 * `/launch`: Scripts de inicialização (`fusion.launch`) com o gerenciamento dos nós.
 * `/scripts`: Ferramentas de avaliação (`avaliar_tcc.py`) para processamento de *bags* e geração dos gráficos de trajetória.
 
+---
+
+## 📋 Metodologia e Configuração
+O sistema utiliza o nó `robot_localization` para fundir dados de sensores com diferentes características de ruído e frequência.
+
+### Configurações de Fusão
+1. **Modo 1 (Odometria):** Fusão baseada apenas em `/wheel/odom`.
+2. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação.
+3. **Modo 3 (Odom + IMU + GPS):** Inclusão de `/gps/odom` (conversão de coordenadas geodésicas para o plano cartesiano X/Y).
+
+### Tópicos Utilizados
+* **Entradas do EKF:** `/wheel/odom`, `/imu/data`, `/gps/odom`
+* **Saída do Filtro:** `/odometry/filtered`
+* **Ground Truth (Referência):** `/gt/odom` (usado exclusivamente para métricas de erro)
+
+---
+
 ## ⚙️ Como Reproduzir
 1. Certifique-se de ter o ambiente ROS Noetic instalado.
 2. Clone o repositório:
