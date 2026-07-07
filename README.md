@@ -4,12 +4,12 @@ Este repositório documenta o desenvolvimento e a validação de um sistema de f
 
 
 
-## 🚀 Sobre o Projeto
+## Sobre o Projeto
 O objetivo deste trabalho é mitigar a deriva (*drift*) inerente à odometria de rodas através da integração de sensores complementares. Foram implementados três modos de operação:
 
 ---
 
-## 📋 Metodologia e Configuração
+##  Metodologia e Configuração
 O sistema utiliza o nó `robot_localization` para fundir dados de sensores com diferentes características de ruído e frequência.
 
 ### Configurações de Fusão
@@ -37,20 +37,20 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 * **Linguagem:** Python (para avaliação de métricas)
 
 
-## 📂 Estrutura do Repositório
+##  Estrutura do Repositório
 * `/config`: Ficheiros YAML com os parâmetros do EKF (covariâncias e configurações de sensores).
 * `/launch`: Scripts de inicialização (`fusion.launch`) com o gerenciamento dos nós.
 * `/scripts`: Ferramentas de avaliação (`avaliar_tcc.py`) para processamento de *bags* e geração dos gráficos de trajetória.
 
 
 
-## ⚙️ Como Reproduzir
+## Como Reproduzir
 1. Certifique-se de ter o ambiente ROS Noetic instalado.
 2. Clone o repositório:
    ```bash
    git clone https://github.com/Eufratica/sensor-fusion-ros.git
 
-## 📊 Resultados Experimentais
+## Resultados Experimentais
 
 | Modo 1 (Odometria) | Modo 2 (Odom + IMU) | Modo 3 (Odom + IMU + GPS) |
 | :---: | :---: | :---: |
@@ -78,7 +78,7 @@ Do Modo 2 (1.38 m) para o Modo 3 (0.015 m): O GPS quebra a principal barreira da
 No Modo 3, o filtro tem a "âncora". Toda vez que o GPS envia uma coordenada, o filtro usa o ganho de Kalman K para dizer: "Olha, a odometria diz que estamos aqui, mas o GPS diz que estamos 2 cm pro lado. Vamos confiar mais no GPS porque ele não deriva". É isso que zera o erro acumulado e faz o RMSE despencar para 1.5 cm.
 
 
-## 🧠 Aprofundamento: Funcionamento do EKF
+##  Aprofundamento: Funcionamento do EKF
 
 O sistema opera em um ciclo contínuo de **Predição e Correção**:
 
