@@ -52,11 +52,19 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 
 
 
-## Como Reproduzir
-1. Certifique-se de ter o ambiente ROS Noetic instalado.
-2. Clone o repositório:
-   ```bash
-   git clone https://github.com/Eufratica/sensor-fusion-ros.git
+## ⚙️ Como Reproduzir os Testes
+
+Este guia assume que você possui o ambiente **ROS Noetic** instalado com o simulador **Gazebo** e as dependências do robô Husky configuradas.
+
+### 1. Clonagem e Preparação do Workspace
+Navegue até o seu diretório de trabalho do ROS (`catkin_ws`) e clone o repositório dentro da pasta `src`:
+
+```bash
+cd ~/catkin_ws/src
+git clone [https://github.com/Eufratica/sensor-fusion-ros.git](https://github.com/Eufratica/sensor-fusion-ros.git)
+cd ..
+```
+
 
 ## Resultados Experimentais
 
