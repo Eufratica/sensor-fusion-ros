@@ -13,9 +13,9 @@ O objetivo deste trabalho é mitigar a deriva (*drift*) inerente à odometria de
 O sistema utiliza o nó `robot_localization` para fundir dados de sensores com diferentes características de ruído e frequência.
 
 ### Configurações de Fusão
-1. **Modo 1 (Odometria):** Fusão baseada apenas em `/wheel/odom`.
-2. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação.
-3. **Modo 3 (Odom + IMU + GPS):** Inclusão de `/gps/odom` (conversão de coordenadas geodésicas para o plano cartesiano X/Y).
+1. **Modo 1 (Odometria):** Fusão baseada apenas em `/wheel/odom`,a Odometria Pura (Rodas).
+2. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação, (Fusão inercial para correção de orientação).
+3. **Modo 3 (Odom + IMU + GPS):** Inclusão de `/gps/odom` (conversão de coordenadas geodésicas para o plano cartesiano X/Y), (Fusão global para correção de posição absoluta).
 
 ### Tópicos Utilizados
 * **Entradas do EKF:** `/wheel/odom`, `/imu/data`, `/gps/odom`
@@ -24,9 +24,6 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 
 ---
 
-1. **Modo 1:** Odometria Pura (Rodas).
-2. **Modo 2:** Odometria + IMU (Fusão inercial para correção de orientação).
-3. **Modo 3:** Odom + IMU + GPS (Fusão global para correção de posição absoluta).
 
 ## 🛠️ Tecnologias Utilizadas
 * **ROS (Robot Operating System):** Noetic
