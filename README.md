@@ -155,6 +155,8 @@ Arquivos gerados:
 
 - resultado_mode3_odom_imu_gps.png: Visualização do erro no Modo 3 (Odom + IMU + GPS).
 
+[Resultados no Terminal](images/Captura%20de%20tela%20de%202026-07-07%2011-36-08.png)
+
 Nota de Interpretação: Nos gráficos gerados, a linha contínua representa o Ground Truth (caminho ideal), enquanto a linha pontilhada (ou tracejada) representa a estimativa publicada pelo seu filtro (/odometry/filtered). Quanto mais próximas as linhas estiverem, menor será o RMSE reportado pelo script no terminal.
 
 
