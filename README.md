@@ -31,16 +31,6 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 * **Framework:** `robot_localization` (Extended Kalman Filter)
 * **Linguagem:** Python (para avaliação de métricas)
 
-## 📊 Resultados Obtidos
-A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a convergência do filtro à medida que mais sensores são integrados:
-
-| Modo | Sensores | RMSE (m) |
-| :--- | :--- | :--- |
-| **1** | Odometria Pura | 1.7706 |
-| **2** | Odometria + IMU | 1.3810 |
-| **3** | Odom + IMU + GPS | 0.0151 |
-
-> **Conclusão:** A integração de sensores globais (GPS) com sensores proprioceptivos (Odometria/IMU) demonstrou uma redução crítica no erro, validando a arquitetura proposta para aplicações de navegação autônoma.
 
 ## 📂 Estrutura do Repositório
 * `/config`: Ficheiros YAML com os parâmetros do EKF (covariâncias e configurações de sensores).
@@ -62,3 +52,15 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 | ![Modo 1](images/resultado_mode1_odom.png) | ![Modo 2](images/resultado_mode2_odom_imu.png) | ![Modo 3](images/resultado_mode3_odom_imu_gps.png) |
 
 > **Análise:** O Modo 3 (Odom + IMU + GPS) atingiu um RMSE de **0.0151 m**, demonstrando a eficácia da fusão sensorial na correção da deriva.
+
+## 📊 Resultados Obtidos
+A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a convergência do filtro à medida que mais sensores são integrados:
+
+| Modo | Sensores | RMSE (m) |
+| :--- | :--- | :--- |
+| **1** | Odometria Pura | 1.7706 |
+| **2** | Odometria + IMU | 1.3810 |
+| **3** | Odom + IMU + GPS | 0.0151 |
+
+> **Conclusão:** A integração de sensores globais (GPS) com sensores proprioceptivos (Odometria/IMU) demonstrou uma redução crítica no erro, validando a arquitetura proposta para aplicações de navegação autônoma.
+
