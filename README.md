@@ -14,8 +14,13 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 
 ### Configurações de Fusão
 1. **Modo 1 (Odometria):** Fusão baseada apenas em `/wheel/odom`,a Odometria Pura (Rodas).
+Aqui é onde a gente vê o erro acumulando na hora. Como a gente só usou o encoder da roda, qualquer patinada que o Husky dava no simulador, o sistema entendia como movimento real. Não tem como fugir, o drift (aquela "deriva") é inevitável. O robô vai andando e, quanto mais tempo passa, mais "perdido" ele fica em relação ao ponto inicial.
+   
 2. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação, (Fusão inercial para correção de orientação).
+Quando a gente entrou com a IMU, a coisa melhorou um pouco porque agora o robô sabe pra onde ele tá olhando (o Yaw). Se o robô gira, o IMU percebe a aceleração angular e corrige a rota antes do encoder da roda confundir tudo. Ajudou, mas ainda não resolve o problema da posição no mapa. Ele sabe a direção, mas ainda não tem uma "bússola absoluta" de lugar.
+
 3. **Modo 3 (Odom + IMU + GPS):** Inclusão de `/gps/odom` (conversão de coordenadas geodésicas para o plano cartesiano X/Y), (Fusão global para correção de posição absoluta).
+Foi aqui que o sistema travou na posição correta. O GPS traz a coordenada absoluta (latitude/longitude), e o Filtro de Kalman faz o meio de campo: ele usa a alta frequência da odometria/IMU pra manter o movimento suave, mas, toda vez que o GPS solta um pulo de coordenada, o filtro corrige a deriva acumulada dos outros sensores.
 
 
 
@@ -89,6 +94,23 @@ O sistema opera em um ciclo contínuo de **Predição e Correção**:
 * **Matrizes de Covariância:** Ajustamos o `process_noise_covariance` no arquivo `.yaml` para impedir que o sistema confiasse cegamente em sensores ruidosos.
 * **Estimativa de Bias da IMU:** O EKF estima internamente o *bias* (erro constante) da IMU, subtraindo-o em tempo real, o que evita que o robô "dance" quando parado.
 * **Sincronização Temporal:** Utilizamos `message_filters` para garantir que o *timestamp* dos tópicos de entrada fosse casado no tempo, evitando erros de "fantasmas" na fusão.
+
+## O Coração do EKF: 
+
+Predição e Correção
+
+O nosso EKF trabalha num loop que a gente chama de Predição e Correção:
+
+- Ciclo de Predição: O robô usa o modelo dinâmico (Odometria + IMU) pra "chutar" onde ele vai estar no próximo instante. Como todo sensor tem ruído, a nossa incerteza P aumenta nesse passo.
+
+- Ciclo de Correção: O GPS entra como uma "medição". O filtro compara a nossa estimativa com o GPS e calcula o erro (o resíduo). Aí ele usa o Ganho de Kalman K pra atualizar a posição.
+  *Se o ganho é alto, o sistema ajusta a posição drasticamente pro lado do GPS. Se é baixo, o sistema entende que o GPS está com ruído e mantém a confiança no movimento que o robô já estava fazendo.Por que seu sistema é robusto?
+
+- Matrizes de Covariância: Definição de quanto "ruído" cada sensor tem. Ao configurar isso, evitamos que o sistema de confiasse cegamente em um dado ruim.
+  
+- Estimativa de Bias da IMU: Um ponto que a banca vai adorar: o seu EKF não só funde sensores, ele aprende o bias (erro constante) da IMU. Como a IMU tem um erro que varia com a temperatura/tempo, o EKF percebe que esse erro é constante e subtrai ele do cálculo automaticamente. Isso mantém o robô parado sem "dançar" no mapa.
+
+Sincronização (Timestamping): O erro de 1.5 cm só foi possível porque usamos message_filters do ROS. Garantimos que o dado do GPS e da odometria se encontrassem no mesmo instante no tempo t. Se tivéssemos um atraso (latência) de poucos milissegundos, o filtro estaria comparando posições em tempos diferentes, o que geraria um erro de "fantasma" que subiria o RMSE lá pro alto.
 
 ---
 
