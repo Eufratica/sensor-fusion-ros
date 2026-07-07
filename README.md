@@ -1,50 +1,40 @@
-# Projeto de Fusão de Sensores com EKF em ROS
+# Sensor Fusion Kalman: Estimação de Estado e Odometria
 
-**Autor:** Gerson Daniel Santos Marques  
-**Instituição:** Universidade Federal da Bahia (UFBA) - Engenharia da Computação  
-**Disciplina/Projeto:** Robótica Móvel / Fusão de Sensores  
-
-## 📌 Descrição do Projeto
-Este repositório contém a implementação, configuração e validação de Filtros Estendidos de Kalman (EKF) utilizando o pacote `robot_localization` no ROS Noetic. O objetivo é estimar a odometria de um robô móvel (Husky) simulado no Gazebo, fundindo dados de Odometria de Roda e IMU, e comparando os resultados com os dados reais da simulação (Ground Truth).
-
-Foram testados três cenários de filtragem:
-1. `/ekf_odom`: Apenas odometria das rodas.
-2. `/ekf_odom_imu`: Fusão de odometria das rodas + IMU.
-3. `/ekf_all`: Fusão completa.
-
-## ⚙️ Modificações Críticas no EKF (Os arquivos .yaml)
-Durante a parametrização dos filtros, um ajuste fundamental foi realizado na matriz de configuração dos sensores para evitar o fenômeno de "Wheel Slippage" (derrapagem das rodas), que degrada a estimativa de rotação (Yaw) do robô.
-
-Nos arquivos de configuração, as matrizes originais causavam uma disputa de confiança entre as rodas e a IMU. Para resolver isso, fizemos a seguinte alteração:
-
-* **Odometria de Roda (`odom0_config`):** Removemos a medição de Yaw (6ª posição) e da velocidade angular de Yaw (12ª posição). O robô passou a confiar nas rodas apenas para deslocamento linear (X, Y, Vx, Vy).
-* **IMU (`imu0_config`):** Mantivemos o Yaw e a velocidade angular ativados. O giroscópio, sendo imune à derrapagem, tornou-se a fonte absoluta de verdade para a orientação do robô.
-
-Inicie a Simulação e o Ambiente:
-
-1. roslaunch lar_gazebo lar_husky.launch
-
-Inicie os Filtros de Kalman:
-
-2.roslaunch sensor_fusion_kalman fusion.launch mode:=2
-
-Gravação e Movimentação:
-
-3.rosbag record -O experimento.bag /ekf_odom/odometry/filtered /ekf_odom_imu/odometry/filtered /ekf_all/odometry/filtered /gt/odom
+Este repositório documenta o desenvolvimento e a validação de um sistema de fusão de sensores para robôs móveis, utilizando o pacote `robot_localization` (EKF) do ROS. O projeto compara três estratégias de localização, avaliando o erro médio quadrático (RMSE) em relação ao *Ground Truth* do simulador Gazebo.
 
 
 
+## 🚀 Sobre o Projeto
+O objetivo deste trabalho é mitigar a deriva (*drift*) inerente à odometria de rodas através da integração de sensores complementares. Foram implementados três modos de operação:
 
-**Exemplo da configuração otimizada:**
-```yaml
-# Apenas dados lineares das rodas
-odom0_config: [true, true, false, false, false, false, 
-               true, true, false, false, false, false, 
-               false, false, false]
+1. **Modo 1:** Odometria Pura (Rodas).
+2. **Modo 2:** Odometria + IMU (Fusão inercial para correção de orientação).
+3. **Modo 3:** Odom + IMU + GPS (Fusão global para correção de posição absoluta).
 
-# Confiança total na IMU para rotação
-imu0_config: [false, false, false, false, false, true, 
-              false, false, false, false, false, true, 
-              true, false, false]
+## 🛠️ Tecnologias Utilizadas
+* **ROS (Robot Operating System):** Noetic
+* **Simulador:** Gazebo com robô Clearpath Husky
+* **Framework:** `robot_localization` (Extended Kalman Filter)
+* **Linguagem:** Python (para avaliação de métricas)
 
+## 📊 Resultados Obtidos
+A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a convergência do filtro à medida que mais sensores são integrados:
 
+| Modo | Sensores | RMSE (m) |
+| :--- | :--- | :--- |
+| **1** | Odometria Pura | 1.7706 |
+| **2** | Odometria + IMU | 1.3810 |
+| **3** | Odom + IMU + GPS | 0.0151 |
+
+> **Conclusão:** A integração de sensores globais (GPS) com sensores proprioceptivos (Odometria/IMU) demonstrou uma redução crítica no erro, validando a arquitetura proposta para aplicações de navegação autônoma.
+
+## 📂 Estrutura do Repositório
+* `/config`: Ficheiros YAML com os parâmetros do EKF (covariâncias e configurações de sensores).
+* `/launch`: Scripts de inicialização (`fusion.launch`) com o gerenciamento dos nós.
+* `/scripts`: Ferramentas de avaliação (`avaliar_tcc.py`) para processamento de *bags* e geração dos gráficos de trajetória.
+
+## ⚙️ Como Reproduzir
+1. Certifique-se de ter o ambiente ROS Noetic instalado.
+2. Clone o repositório:
+   ```bash
+   git clone <link-do-seu-repositorio>
