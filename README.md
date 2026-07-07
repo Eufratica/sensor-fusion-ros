@@ -83,3 +83,5 @@ O sistema opera em um ciclo contínuo de **Predição e Correção**:
 * **Sincronização Temporal:** Utilizamos `message_filters` para garantir que o *timestamp* dos tópicos de entrada fosse casado no tempo, evitando erros de "fantasmas" na fusão.
 
 ---
+
+Nota: O Ground Truth (/gt/odom) é utilizado estritamente para avaliação. O EKF não tem acesso a este tópico durante o processamento, garantindo que a estimativa de estado seja realizada apenas com sensores embarcados, simulando um cenário real de robótica móvel.
