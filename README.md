@@ -17,10 +17,15 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 2. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação, (Fusão inercial para correção de orientação).
 3. **Modo 3 (Odom + IMU + GPS):** Inclusão de `/gps/odom` (conversão de coordenadas geodésicas para o plano cartesiano X/Y), (Fusão global para correção de posição absoluta).
 
-### Tópicos Utilizados
-* **Entradas do EKF:** `/wheel/odom`, `/imu/data`, `/gps/odom`
-* **Saída do Filtro:** `/odometry/filtered`
-* **Ground Truth (Referência):** `/gt/odom` (usado exclusivamente para métricas de erro)
+
+
+### Fluxo de Dados
+1. **Sensores e Entradas do EKF:** `/wheel/odom` (encoders), `/imu/data` (aceleração/giro) e `/fix` (GPS).
+2. **Pré-processamento:** O GPS (latitude/longitude) é convertido para coordenadas cartesianas locais (X, Y) através de um nó de transformação, gerando o tópico `/gps/odom`.
+3. **Fusão (EKF):** O nó `ekf_localization_node` recebe os dados, executa a predição baseada no modelo cinemático e a correção baseada nas medições recebidas.
+4. **Referencial:** Definimos `world_frame: odom` para garantir que o robô tenha um referencial estável, com a devida sincronização de *timestamps* via `message_filters`.
+5. * **Saída do Filtro:** `/odometry/filtered`
+6. **Ground Truth (Referência):** `/gt/odom` (usado exclusivamente para métricas de erro)
 
 ---
 
