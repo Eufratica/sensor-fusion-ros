@@ -95,7 +95,7 @@ O sistema opera em um ciclo contínuo de **Predição e Correção**:
 * **Estimativa de Bias da IMU:** O EKF estima internamente o *bias* (erro constante) da IMU, subtraindo-o em tempo real, o que evita que o robô "dance" quando parado.
 * **Sincronização Temporal:** Utilizamos `message_filters` para garantir que o *timestamp* dos tópicos de entrada fosse casado no tempo, evitando erros de "fantasmas" na fusão.
 
-## O Coração do EKF: 
+## O Funcionamento do EKF: 
 
 Predição e Correção
 
