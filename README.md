@@ -53,7 +53,6 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 
 > **Análise:** O Modo 3 (Odom + IMU + GPS) atingiu um RMSE de **0.0151 m**, demonstrando a eficácia da fusão sensorial na correção da deriva.
 
-## 📊 Resultados Obtidos
 A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a convergência do filtro à medida que mais sensores são integrados:
 
 | Modo | Sensores | RMSE (m) |
