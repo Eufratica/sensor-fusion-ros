@@ -37,7 +37,7 @@ A eficácia da fusão sensorial foi validada através do RMSE, demonstrando a co
 1. Certifique-se de ter o ambiente ROS Noetic instalado.
 2. Clone o repositório:
    ```bash
-   git clone <link-do-seu-repositorio>
+   git clone https://github.com/Eufratica/sensor-fusion-ros.git
 
 ## 📊 Resultados Experimentais
 
