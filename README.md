@@ -149,13 +149,13 @@ Estes arquivos contêm os gráficos comparativos da trajetória estimada pelo EK
 
 Arquivos gerados:
 
-resultado_mode1_odom.png: Visualização do erro no Modo 1 (Odometria Pura).
+- resultado_mode1_odom.png: Visualização do erro no Modo 1 (Odometria Pura).
 
-resultado_mode2_odom_imu.png: Visualização do erro no Modo 2 (Odom + IMU).
+- resultado_mode2_odom_imu.png: Visualização do erro no Modo 2 (Odom + IMU).
 
-resultado_mode3_odom_imu_gps.png: Visualização do erro no Modo 3 (Odom + IMU + GPS).
+- resultado_mode3_odom_imu_gps.png: Visualização do erro no Modo 3 (Odom + IMU + GPS).
 
-Dica de Interpretação: Nos gráficos gerados, a linha contínua representa o Ground Truth (caminho ideal), enquanto a linha pontilhada (ou tracejada) representa a estimativa publicada pelo seu filtro (/odometry/filtered). Quanto mais próximas as linhas estiverem, menor será o RMSE reportado pelo script no terminal.
+Nota de Interpretação: Nos gráficos gerados, a linha contínua representa o Ground Truth (caminho ideal), enquanto a linha pontilhada (ou tracejada) representa a estimativa publicada pelo seu filtro (/odometry/filtered). Quanto mais próximas as linhas estiverem, menor será o RMSE reportado pelo script no terminal.
 
 
 
