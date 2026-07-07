@@ -15,7 +15,7 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 ### Configurações de Fusão
 1. **Modo 1 (Odometria):** Fusão baseada apenas em `/wheel/odom`,a Odometria Pura (Rodas).
 
-Aqui é onde a gente vê o erro acumulando na hora. Como a gente só usou o encoder da roda, qualquer patinada que o Husky dava no simulador, o sistema entendia como movimento real. Não tem como fugir, o drift (aquela "deriva") é inevitável. O robô vai andando e, quanto mais tempo passa, mais "perdido" ele fica em relação ao ponto inicial.
+- Aqui é onde a gente vê o erro acumulando na hora. Como a gente só usou o encoder da roda, qualquer patinada que o Husky dava no simulador, o sistema entendia como movimento real. Não tem como fugir, o drift (aquela "deriva") é inevitável. O robô vai andando e, quanto mais tempo passa, mais "perdido" ele fica em relação ao ponto inicial.
    
 3. **Modo 2 (Odom + IMU):** Inclusão de `/imu/data` para estabilização de orientação, (Fusão inercial para correção de orientação).
 Quando a gente entrou com a IMU, a coisa melhorou um pouco porque agora o robô sabe pra onde ele tá olhando (o Yaw). Se o robô gira, o IMU percebe a aceleração angular e corrige a rota antes do encoder da roda confundir tudo. Ajudou, mas ainda não resolve o problema da posição no mapa. Ele sabe a direção, mas ainda não tem uma "bússola absoluta" de lugar.
