@@ -32,7 +32,7 @@ O sistema utiliza o nó `robot_localization` para fundir dados de sensores com d
 2. **Pré-processamento:** O GPS (latitude/longitude) é convertido para coordenadas cartesianas locais (X, Y) através de um nó de transformação, gerando o tópico `/gps/odom`.
 3. **Fusão (EKF):** O nó `ekf_localization_node` recebe os dados, executa a predição baseada no modelo cinemático e a correção baseada nas medições recebidas.
 4. **Referencial:** Definimos `world_frame: odom` para garantir que o robô tenha um referencial estável, com a devida sincronização de *timestamps* via `message_filters`.
-5. * **Saída do Filtro:** `/odometry/filtered`
+5. **Saída do Filtro:** `/odometry/filtered`
 6. **Ground Truth (Referência):** `/gt/odom` (usado exclusivamente para métricas de erro)
 
 ---
