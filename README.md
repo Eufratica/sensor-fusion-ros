@@ -220,4 +220,4 @@ Sincronização (Timestamping): O erro de 1.5 cm só foi possível porque usamos
 
 ---
 
-Nota: O Ground Truth (/gt/odom) é utilizado estritamente para avaliação. O EKF não tem acesso a este tópico durante o processamento, garantindo que a estimativa de estado seja realizada apenas com sensores embarcados, simulando um cenário real de robótica móvel.
+Nota: O Ground Truth (/gt/odom) é utilizado estritamente para fins de avaliação e métricas comparativas. O Filtro de Kalman Estendido (EKF) não possui acesso a este tópico durante o processamento, garantindo que a estimativa de estado seja realizada exclusivamente com sensores embarcados, simulando um cenário real. O Ground Truth opera no referencial global (World/Map) do simulador, que serve como a origem absoluta (0,0,0) do sistema de coordenadas global, permitindo a validação quantitativa da acurácia do robô em relação ao ambiente estático.
